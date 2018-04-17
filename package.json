@@ -1,0 +1,12 @@
+{
+  "name": "flap",
+  "version": "0.0.0",
+  "description": "CLI Flappy bird.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["CLI", "Game", "Flappy bird"],
+  "author": "Felds Liscia <dev@felds.com.br>",
+  "license": "ISC"
+}
