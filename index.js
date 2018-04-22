@@ -1,24 +1,40 @@
 const screen = require('./lib/screen')
 
 const config = {
-    gravity: 0.1,
-    fps: 5,
+    gravity: 0.01,
+    fps: 20,
+    stageWidth: 80,
+    satageHeight: 20,
 }
+
 const initialState = {
-    playerPosition: 5,
-    playerVelocity: 0,
+    pos: 5,
+    vel: 0,
     pipes: [],
 }
+
 let inputs = []
 
-const nextState = (state, inputs) => ({
-    ...state,
-    playerPosition: state.playerPosition - config.gravity,
-})
+const nextState = (state, inputs) => {
+    // @TODO check fail states
+
+    const vel = state.vel += config.gravity
+    const pos = state.pos += vel
+
+    return {
+        ...state,
+        vel,
+        pos,
+    }
+}
 
 const show = (state) => {
     screen.clearScreen()
-    // @TODO render
+    
+    for (let row = 0; row < config.satageHeight; row++) {
+        console.log(row === Math.floor(state.pos) ? '#' : '-')
+    }
+
     console.log(state)
 }
 
@@ -30,4 +46,5 @@ const gameLoop = (state) => {
     )
 }
 
+// Start
 gameLoop(initialState)
