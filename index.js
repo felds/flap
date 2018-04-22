@@ -11,6 +11,7 @@ const initialState = {
     pos: 5,
     vel: 0,
     pipes: [],
+    points: 0,
 }
 
 let inputs = []
@@ -25,6 +26,7 @@ const nextState = (state, inputs) => {
         ...state,
         vel,
         pos,
+        points: state.points + 1,
     }
 }
 
@@ -32,10 +34,10 @@ const show = (state) => {
     screen.clearScreen()
     
     for (let row = 0; row < config.satageHeight; row++) {
-        console.log(row === Math.floor(state.pos) ? '#' : '-')
+        console.log(row === Math.floor(state.pos) ? '🍆' : ' ')
     }
 
-    console.log(state)
+    console.log(`points: ${state.points}`)
 }
 
 const gameLoop = (state) => {
