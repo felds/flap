@@ -3,7 +3,9 @@
   "version": "1.1.1",
   "description": "CLI flappy bird",
   "main": "index.js",
-  "bin": "node /index.js",
+  "bin": {
+    "flap": "./index.js"
+  },
   "directories": {
     "lib": "lib"
   },

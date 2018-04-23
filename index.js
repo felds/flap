@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+
+
 const readline = require('readline')
 const {clearScreen, createMatrix, printMatrix} = require('./lib/screen')
 const {clamp} = require('./lib/math')
