@@ -45,7 +45,7 @@ const show = (state) => {
     screen.clearScreen()
     
     for (let row = 0; row < config.stageHeight; row++) {
-        console.log(row === Math.floor(state.player.pos) ? '🍆' : '☁️')
+        console.log(row === Math.floor(state.player.pos) ? '@' : ' ')
     }
 
     console.log(`points: ${state.points}`)
