@@ -6,7 +6,7 @@ const {Pipe, Player} = require('./lib/entities')
 const config = {
     gravity: 0.025,
     flapForce: 0.6,
-    fps: 20,
+    fps: 30,
     stageWidth: 80,
     stageHeight: 20,
 }
@@ -77,7 +77,7 @@ if (process.stdin.isTTY) {
         if (key.ctrl && key.name === 'c') process.exit()
 
         switch (key.name.toUpperCase()) {
-            case 'SPACE': flap = true
+            case 'UP': flap = true
         }
     })
 }
