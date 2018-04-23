@@ -2,6 +2,7 @@ const readline = require('readline')
 const screen = require('./lib/screen')
 const {Pipe, Player} = require('./lib/entities')
 
+const clamp = (min, max) => n => Math.max(min, Math.min(max, n))
 
 const config = {
     gravity: 0.025,
@@ -23,9 +24,10 @@ let flap = false
 
 
 const nextState = (state, inputs) => {
-    const vel = state.player.vel
-         + config.gravity
-         - (flap ? config.flapForce : 0)
+    const vel = clamp(-0.5, 0.5)(state.player.vel
+        + config.gravity
+        - (flap ? config.flapForce : 0)
+    ) 
     const pos = state.player.pos += vel
     
     flap = false
@@ -42,7 +44,7 @@ const show = (state) => {
     screen.clearScreen()
     
     for (let row = 0; row < config.stageHeight; row++) {
-        console.log(row === Math.floor(state.player.pos) ? '🍆' : ' ')
+        console.log(row === Math.floor(state.player.pos) ? '🍆' : '☁️')
     }
 
     console.log(`points: ${state.points}`)
