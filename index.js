@@ -11,11 +11,8 @@ const config = {
     gravity: 0.025,
     flapForce: 0.6,
     fps: 30,
-    // stageWidth: 120,
-    // stageHeight: 20,
-    stageWidth: 10,
-    stageHeight: 10,
-
+    stageWidth: 80,
+    stageHeight: 20,
 }
 
 const initialState = {
@@ -50,16 +47,14 @@ const withPlayer = player => m => {
     const p = Math.round(player.pos)
 
     if (p >= 0 && p < m.length) {
-        m[p][5] = '@'
+        m[p][player.padding] = '@'
     }
-
-    console.log(m)
     
     return m
 }
 const withPipes = ps => m => m
 const show = (state) => {
-    // clearScreen()
+    clearScreen()
     
     const m = pipe(
         withPlayer(state.player),
@@ -87,6 +82,7 @@ const gameLoop = (state) => {
         setTimeout(_ => gameLoop(currState), 1000/config.fps)
     }
 }
+
 
 // Start
 gameLoop(initialState)
