@@ -77,7 +77,7 @@ if (process.stdin.isTTY) {
         if (key.ctrl && key.name === 'c') process.exit()
 
         switch (key.name.toUpperCase()) {
-            case 'UP': flap = true
+            case 'UP': case 'SPACE': case 'W': flap = true
         }
     })
 }
