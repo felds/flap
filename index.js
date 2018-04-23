@@ -1,7 +1,9 @@
 const readline = require('readline')
-const screen = require('./lib/screen')
+const {clearScreen, createMatrix, printMatrix} = require('./lib/screen')
 const {clamp} = require('./lib/math')
 const {Pipe, Player} = require('./lib/entities')
+
+const pipe = (...fs) => x => fs.length === 0 ? x : pipe(...fs.slice(1))(fs[0](x))
 
 
 
@@ -9,12 +11,15 @@ const config = {
     gravity: 0.025,
     flapForce: 0.6,
     fps: 30,
-    stageWidth: 80,
-    stageHeight: 20,
+    // stageWidth: 120,
+    // stageHeight: 20,
+    stageWidth: 10,
+    stageHeight: 10,
+
 }
 
 const initialState = {
-    player: Player(5, 0),
+    player: Player(2, 0),
     pipes: [],
     points: 0,
     failed: false,
@@ -41,14 +46,29 @@ const nextState = (state, inputs) => {
     }
 }
 
-const show = (state) => {
-    screen.clearScreen()
-    
-    for (let row = 0; row < config.stageHeight; row++) {
-        console.log(row === Math.floor(state.player.pos) ? '@' : ' ')
+const withPlayer = player => m => {
+    const p = Math.round(player.pos)
+
+    if (p >= 0 && p < m.length) {
+        m[p][5] = '@'
     }
 
-    console.log(`points: ${state.points}`)
+    console.log(m)
+    
+    return m
+}
+const withPipes = ps => m => m
+const show = (state) => {
+    // clearScreen()
+    
+    const m = pipe(
+        withPlayer(state.player),
+    )(createMatrix('.', config.stageWidth, config.stageHeight))
+
+    process.stdout.write(printMatrix(m))
+    process.stdout.write('\n\n')
+
+    console.log(`Meters: ${state.points}`)
 }
 
 const gameOver = (state) => {
