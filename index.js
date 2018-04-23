@@ -1,9 +1,11 @@
+const readline = require('readline')
 const screen = require('./lib/screen')
 const {Pipe, Player} = require('./lib/entities')
 
 
 const config = {
-    gravity: 0.01,
+    gravity: 0.025,
+    flapForce: 0.6,
     fps: 20,
     stageWidth: 80,
     stageHeight: 20,
@@ -16,13 +18,17 @@ const initialState = {
     failed: false,
 }
 
-let inputs = []
+let flap = false
 
 
 
 const nextState = (state, inputs) => {
-    const vel = state.player.vel += config.gravity
+    const vel = state.player.vel
+         + config.gravity
+         - (flap ? config.flapForce : 0)
     const pos = state.player.pos += vel
+    
+    flap = false
 
     return {
         ...state,
@@ -48,7 +54,7 @@ const gameOver = (state) => {
 }
 
 const gameLoop = (state) => {
-    const currState = nextState(state, inputs)
+    const currState = nextState(state)
     
     if (currState.failed) {
         gameOver(currState)
@@ -61,3 +67,18 @@ const gameLoop = (state) => {
 
 // Start
 gameLoop(initialState)
+
+
+//#region Input
+readline.emitKeypressEvents(process.stdin)
+if (process.stdin.isTTY) {
+    process.stdin.setRawMode(true)
+    process.stdin.on('keypress', (str, key) => {
+        if (key.ctrl && key.name === 'c') process.exit()
+
+        switch (key.name.toUpperCase()) {
+            case 'SPACE': flap = true
+        }
+    })
+}
+//#endregion
