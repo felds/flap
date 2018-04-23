@@ -1,8 +1,9 @@
 const readline = require('readline')
 const screen = require('./lib/screen')
+const {clamp} = require('./lib/math')
 const {Pipe, Player} = require('./lib/entities')
 
-const clamp = (min, max) => n => Math.max(min, Math.min(max, n))
+
 
 const config = {
     gravity: 0.025,
