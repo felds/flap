@@ -2,10 +2,100 @@
 
 
 const readline = require('readline')
-const {gray} = require('./lib/colors')
+const {gray, green} = require('./lib/colors')
 const {clearScreen, createMatrix, printMatrix} = require('./lib/screen')
 const {clamp} = require('./lib/math')
 const {Pipe, Player} = require('./lib/entities')
+
+
+const head = xs => xs[0]
+const tail = xs => xs.slice(1)
+
+const pipe = (...fs) => x => fs.length
+    ? pipe(...tail(fs))(head(fs)(x))
+    : x
+
+const join = glue => xs => xs.join(glue)
+
+const fill = x => xs => xs.length
+    ? [x, ...fill(x)(tail(xs))]
+    : []
+
+const map = f => xs => xs.length > 0
+    ? [f(head(xs)), ...map(f)(tail(xs))]
+    : []
+
+const columns = length => xs => xs.length <= length
+    ? [xs]
+    : [xs.slice(0, length), ...columns(length)(xs.slice(length))]
+
+const showMatrix = width => pipe(
+    columns(width),
+    map(join('')),
+    join('\n'),
+)
+
+const id = x => x
+const defined = x => typeof(x) !== 'undefined'
+const every = f => xs => xs.reduce((acc, x) => acc && !!f(x), true)
+const some = f => xs => xs.reduce((acc, x) => acc || !!f(x), false)
+const all = every(id)
+const any = some(id)
+
+const zip = (...xs) => every(defined)(map(head)(xs))
+    ? [map(head)(xs), ...zip(...map(tail)(xs))]
+    : []
+
+const x = zip(
+    [1, 2, 3],
+    [2, 3, 4],
+    [8, 6],
+)
+
+console.log(x)
+
+
+
+
+// const merge = (...xs) =>
+
+// console.log(map(_ => 0)(new Array(3 * 4)))
+
+// const asd = pipe(
+//     fill('.'),
+//     showMatrix(3),
+// )(new Array(3 * 4))
+
+// console.log(asd)
+// console.log(columns(4)(matrix(3, 4)))
+process.exit()
+
+
+
+
+
+const bg = pipe(
+    fill('x'),
+    map(gray),
+    m_set(3, 5, green("O")),
+    chunks(80),
+    map(join("")),
+    join("\n"),
+)(matrix(80, 30))
+
+
+
+
+console.log(bg)
+// process.stdout.write(bg)
+
+// console.log(chunks(3)([1, 2, 3, 4, 5, 6, 7, 8]))
+// console.log(Matrix(2, 4))
+process.exit()
+
+
+
+// const showMatrix = m => 
 
 
 
@@ -23,7 +113,6 @@ const {Pipe, Player} = require('./lib/entities')
 
 process.exit()
 
-const pipe = (...fs) => x => fs.length === 0 ? x : pipe(...fs.slice(1))(fs[0](x))
 
 
 
