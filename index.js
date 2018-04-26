@@ -2,9 +2,26 @@
 
 
 const readline = require('readline')
+const {gray} = require('./lib/colors')
 const {clearScreen, createMatrix, printMatrix} = require('./lib/screen')
 const {clamp} = require('./lib/math')
 const {Pipe, Player} = require('./lib/entities')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+process.exit()
 
 const pipe = (...fs) => x => fs.length === 0 ? x : pipe(...fs.slice(1))(fs[0](x))
 
